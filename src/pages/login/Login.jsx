@@ -27,8 +27,7 @@ class Login extends Component {
       return
     } else {
       React.api.getMsg().then(res => {
-        console.log(res);
-
+        
       });
 
       Toast.success('登录成功！', 1);
