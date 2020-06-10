@@ -1,0 +1,46 @@
+.chatRoom{
+  padding: 50px 0;
+  .chat-item{
+    width: 100%;
+    // height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+
+    .chat-avatar{
+      width: 50px;
+      height: 50px;
+      margin-right: 15px;
+      img{
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .chat-inner{
+      flex: 1;
+      .chat-info{
+        display: flex;
+        justify-content: space-between;
+        line-height: 28px;
+        h3{
+          font-size: 18px;
+        }
+        span{
+          color: #bbb;
+        }
+      }
+      .chat-context{
+        width: 100%;
+        p{
+          max-width: 80%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          color: #bbb;
+        }
+      }
+    }
+  }
+}

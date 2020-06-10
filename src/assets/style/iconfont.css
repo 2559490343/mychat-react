@@ -1,0 +1,41 @@
+@font-face {font-family: "iconfont";
+  src: url('./iconfont.eot'); /* IE9 */
+  src: url('./iconfont.eot') format('embedded-opentype'), /* IE6-IE8 */
+  url('./iconfont.woff2') format('woff2'),
+  url('./iconfont.woff') format('woff'),
+  url('./iconfont.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('./iconfont.svg') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-xiangce:before {
+  content: "\e7f1";
+}
+
+.icon-yuyin:before {
+  content: "\e684";
+}
+
+.icon-zhifeiji:before {
+  content: "\e7d5";
+}
+
+.icon-dilanxianxingiconyihuifu_huabanfuben:before {
+  content: "\e607";
+}
+
+.icon-add:before {
+  content: "\e742";
+}
+
+.icon-jianpan:before {
+  content: "\e65b";
+}
+
