@@ -26,15 +26,23 @@ class Login extends Component {
       Toast.offline("请输入密码!", 1);
       return
     } else {
-      React.api.getMsg().then(res => {
-        
+      let params = {
+        username: this.state.username,
+        password: this.state.password
+      }
+      React.api.handleLogin(params).then(res => {
+        if (res.code === 1) {
+          Toast.success('登录成功！', 1);
+          setTimeout(() => {
+            this.props.history.push('/home')
+          }, 500);
+          sessionStorage.setItem('username', this.state.username)
+        } else {
+          Toast.fail(res.msg, 1);
+        }
       });
 
-      Toast.success('登录成功！', 1);
-      setTimeout(() => {
-        this.props.history.push('/home')
-      }, 500);
-      sessionStorage.setItem('username', this.state.username)
+
     }
 
   }

@@ -1,11 +1,16 @@
 import axios from 'axios'
 import qs from 'qs'
+import { Toast } from 'antd-mobile';
+
+
+
 var loadingInstance;// 显示loading
 var reqCount = 0;//请求数
-
 axios.interceptors.request.use(function (config) {
     reqCount++;
-
+    if (config.loading) {
+        Toast.loading('Loading...', 0)
+    }
     let token = sessionStorage.getItem('token');
     if (token && typeof token !== 'undefined') {
         config.headers.token = token;
@@ -20,6 +25,7 @@ axios.interceptors.request.use(function (config) {
 axios.interceptors.response.use(function (res) {
     reqCount--;
     if (reqCount <= 0) {
+        Toast.hide()
     }
 
     if (res.headers.token && typeof res.headers.token !== 'undefined') {
@@ -47,15 +53,16 @@ axios.interceptors.response.use(function (res) {
 //需要重新登录--------------------------------------------------------------------------------------
 function goLogin() {
     sessionStorage.clear();
+    Toast.fail("登录失效！", 1);
 }
 // 封装axios--------------------------------------------------------------------------------------
 /**
  * @params method  String POST
  * @params url     String 地址
  * @params params  String 传参
- * @params Deal    String 是否需要进行状态码判断操作，为了处理不需要登录的页面调用了需要登录才能使用的接口返回的状态码
+ * @params loading Boolen 接口请求是否需要遮挡层
  * */
-function req(method, url, params) {
+function req(method, url, params, loading = false) {
     params = params || {};
     //处理pageNo参数
     if (params.pageNo && params.pageNo > 0) {
@@ -64,13 +71,14 @@ function req(method, url, params) {
 
     let httpDefault = {
         method: method,
-        baseURL: 'http://localhost:9001',
+        baseURL: 'http://localhost:9999',
         url: url,
-        params: method === 'GET' || method === 'DELETE' ? params : null,
+        params: method === 'get' || method === 'delete' ? params : null,
         // data: method === 'POST' || method === 'PUT' ? qs.stringify(params) : null,
-        data: method === 'POST' || method === 'PUT' ? params : null,
+        data: method === 'post' || method === 'put' ? params : null,
         timeout: 20000,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
+        loading
     };
     //上传文件
     // if (params.file && params.catalog) {
@@ -91,22 +99,22 @@ function req(method, url, params) {
     return new Promise((resolve, reject) => {
         axios(httpDefault)
             .then((res) => {
-                //0代表正常,1代表异常,222代表登录失效
+                //1代表正常,0代表异常,2代表登录失效
                 if (res.code === 0) {
+                    Toast.fail(res.msg, 1);
                     resolve(res);
-                } else if (res.code === 1) {
-                    resolve(res);
-                } else if (res.code === 222) {
+                } else if (res.code === 2) {
                     // 登录失效重新登录
                     goLogin();
                     resolve(res);
                 }
                 else {
-                    reject(res);
+                    resolve(res);
                 }
 
             }).catch((err) => {
                 console.log(err)
+                Toast.fail('系统错误!', 1);
             })
     })
 }

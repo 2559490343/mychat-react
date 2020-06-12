@@ -36,11 +36,26 @@ class Register extends Component {
             Toast.offline("请确认密码!", 1);
             return
         } else {
-            Toast.success('注册成功！', 1);
-            setTimeout(() => {
-                this.props.history.push('/login')
-            }, 500);
-            sessionStorage.setItem('username', this.state.username)
+            let params = {
+                username: this.state.username,
+                password: this.state.password
+            }
+            React.api.handleRegister(params).then(res => {
+                // console.log(res);
+                if (res.code === 1) {
+                    Toast.success('注册成功！', 1);
+                    setTimeout(() => {
+                        this.props.history.push('/login')
+                    }, 500);
+                    sessionStorage.setItem('username', this.state.username)
+                } else {
+                    Toast.fail(res.msg, 1);
+                }
+
+            }).catch(err => {
+                console.log(err);
+            })
+
         }
 
     }

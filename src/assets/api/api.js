@@ -1,8 +1,11 @@
 import req from './req'
 
 const api = {
-    getMsg: params => {
-        return req('GET', '/users/', params)
-    }
+    handleLogin: params => {
+        return req('post', '/users/login', params,true)
+    },
+    handleRegister: params => {
+        return req('post', '/users/register', params,true)
+    },
 }
 export default api

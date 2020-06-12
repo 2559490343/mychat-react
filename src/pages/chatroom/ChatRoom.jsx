@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { withRouter } from "react-router-dom"
 import './ChatRoom.scss'
 class ChatRoom extends Component {
@@ -7,8 +6,6 @@ class ChatRoom extends Component {
     chatList: [{id:1}, {id:2}, {id:3}, {id:4}, {id:5}, {id:6}, {id:7}, {id:8}, {id:9}, {id:10}, {id:11}]
   }
   handleSend = async () => {
-    let data = await axios.get('/api/goods');
-    console.log(data);
   }
   toSingleChat = () => {
     this.props.history.push('/singlechat', { name: '熊熊熊' })
