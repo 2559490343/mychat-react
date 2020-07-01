@@ -17,7 +17,8 @@ class Home extends Component {
       hasNew: false
     };
   }
-
+  componentDidMount() {
+  }
   render() {
     // let username = sessionStorage.getItem("username");
 

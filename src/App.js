@@ -6,9 +6,9 @@ import SingleChat from './pages/singlechat/SingleChat'
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom"
 import './App.scss'
 import './assets/style/iconfont.css'
-
 // import mainRouters from './routers/mainRouters'
 class App extends React.Component {
+  
   render() {
     // let username = sessionStorage.getItem("username");
     return (
@@ -30,7 +30,7 @@ class App extends React.Component {
               })
             } */}
             )
-            }
+
           </Switch>
         </div>
       </Router>

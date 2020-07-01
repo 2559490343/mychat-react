@@ -2,44 +2,10 @@ import React, { Component } from 'react'
 import { NavBar, Icon, Toast } from 'antd-mobile';
 import { withRouter } from 'react-router-dom'
 import './SingleChat.scss'
-
 class SingleChat extends Component {
   state = {
-    userId: 1,
+    userId: React.utils.getStorage('user')._id,
     chat_list: [
-      {
-        userId: 1,
-        id: 1,
-        content: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈',
-        avatar: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3744215463,383557679&fm=26&gp=0.jpg'
-      },
-      {
-        userId: 2,
-        id: 2,
-        content: '哈哈哈哈哈',
-        avatar: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3744215463,383557679&fm=26&gp=0.jpg'
-      },
-      {
-        userId: 1,
-        id: 3,
-        content: '哈哈哈哈哈',
-        avatar: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3744215463,383557679&fm=26&gp=0.jpg'
-
-      },
-      {
-        userId: 2,
-        id: 4,
-        content: '哈哈哈哈哈',
-        avatar: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3744215463,383557679&fm=26&gp=0.jpg'
-
-      },
-      {
-        userId: 1,
-        id: 5,
-        content: '哈哈哈哈哈',
-        avatar: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3744215463,383557679&fm=26&gp=0.jpg'
-
-      }
     ],
     message: ''
   }
@@ -52,11 +18,15 @@ class SingleChat extends Component {
     }
 
     let obj = {
-      userId: 1,
-      id: parseInt(Math.random() * 100),
-      content: this.state.message,
-      avatar: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3744215463,383557679&fm=26&gp=0.jpg'
-    }
+      sendUserId: React.utils.getStorage('user')._id,
+      receiveUserId: this.props.history.location.state._id,
+      chatMsg: this.state.message,
+      sendUserAvatar: React.utils.getStorage('user').avatarUrl,
+      _id: Math.random() * 1000000
+    };
+    React.api.sendChatMsg(obj).then(res => {
+
+    })
     let arr = this.state.chat_list;
     arr.push(obj)
     this.setState({
@@ -64,7 +34,8 @@ class SingleChat extends Component {
       message: ''
     }, () => {
       this.chat_area.scrollTop = this.chat_area.scrollHeight;
-    })
+    });
+
   }
   getMessage = (e) => {
     this.setState({
@@ -79,9 +50,41 @@ class SingleChat extends Component {
     }
 
   }
+  getHisChatMsgList = () => {
+    let obj = {
+      pageNo: 1,
+      pageSize: 30,
+      sendUserId: React.utils.getStorage('user')._id,
+      receiveUserId: this.props.history.location.state._id
+    }
+    React.api.getHisChatMsgList(obj).then(res => {
+      if (res.code === 1) {
+        this.setState({
+          chat_list: res.data.chatMsgList
+        }, () => {
+          this.chat_area.scrollTop = this.chat_area.scrollHeight;
+        })
+      }
+    })
+  }
+
+  getChatMsg = msgObj => {
+    console.log("singlechat", msgObj);
+    let chat_list = this.state.chat_list;
+    chat_list.push(msgObj)
+    this.setState({ chat_list }, () => {
+      this.chat_area.scrollTop = this.chat_area.scrollHeight;
+    })
+  }
+
   componentDidMount() {
     let chat_area = document.querySelector("#chat_area");
-    this.chat_area = chat_area
+    this.chat_area = chat_area;
+    this.getHisChatMsgList();
+    React.socket.on("getChatMsg", this.getChatMsg)
+  }
+  componentWillUnmount() {
+    React.socket.socket.removeListener('getChatMsg', this.getChatMsg)
   }
   // componentDidUpdate(nextProps, nextState) {
   //   // this.chat_area.scrollTop = this.chat_area.scrollHeight;
@@ -94,17 +97,17 @@ class SingleChat extends Component {
           icon={<Icon type="left" style={{ color: '#000' }} />}
           onLeftClick={() => this.props.history.goBack()}
           style={{ backgroundColor: '#ededed' }}
-        >{this.props.history.location.state.name}</NavBar>
+        >{this.props.history.location.state.nickname}</NavBar>
         <div className='chat-area' id='chat_area'>
           {
             this.state.chat_list.map(item =>
-              (<div key={item.id} className={`chat-item ${item.userId === this.state.userId ? "chat-item-right" : ''}`}>
+              (<div key={item._id} className={`chat-item ${item.sendUserId === this.state.userId ? "chat-item-right" : ''}`}>
                 <div className="chat-item-inner">
                   <div className="avatar">
-                    <img src={item.avatar} alt="" />
+                    <img src={item.sendUserAvatar} alt="" />
                   </div>
                   <div className="content">
-                    {item.content}
+                    {item.chatMsg}
                   </div>
                 </div>
 

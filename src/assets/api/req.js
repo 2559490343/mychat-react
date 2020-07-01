@@ -1,10 +1,10 @@
 import axios from 'axios'
-import qs from 'qs'
+// import qs from 'qs'
 import { Toast } from 'antd-mobile';
 
 
 
-var loadingInstance;// 显示loading
+// var loadingInstance;// 显示loading
 var reqCount = 0;//请求数
 axios.interceptors.request.use(function (config) {
     reqCount++;
@@ -78,6 +78,7 @@ function req(method, url, params, loading = false) {
         data: method === 'post' || method === 'put' ? params : null,
         timeout: 20000,
         headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
         loading
     };
     //上传文件

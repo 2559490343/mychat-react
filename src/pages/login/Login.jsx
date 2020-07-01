@@ -36,7 +36,8 @@ class Login extends Component {
           setTimeout(() => {
             this.props.history.push('/home')
           }, 500);
-          sessionStorage.setItem('username', this.state.username)
+          React.utils.saveStorage('user', res.data.userInfo);
+          React.socket.emit('open', res.data.userInfo._id)
         } else {
           Toast.fail(res.msg, 1);
         }
