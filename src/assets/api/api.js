@@ -21,5 +21,14 @@ const api = {
     getHisChatMsgList: params => {
         return req('post', '/chat/getHisChatMsgList', params, false)
     },
+    // 获取好友列表
+    getFrientsList: params => {
+        return req('get', '/users/getFrientsList', params, false)
+    },
+    // 搜素添加好友
+    searchFriends: params => {
+        return req('get', '/users/searchFriends', params, true)
+    },
+
 }
 export default api

@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 
 //websocket地址
-const wsUrl = 'http://localhost:9978'
+const wsUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:9977' : 'http://xiongxiong.site:9978'
 //建立websocket连接
 // const socket = io(wsUrl);
 // //收到server的连接确认

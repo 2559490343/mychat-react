@@ -6,6 +6,9 @@ class Header extends Component {
   state = {
 
   }
+  goAddFriend = () => {
+    this.props.history.push("/home/addFriends")
+  }
   // componentDidMount() {
 
   // }
@@ -34,7 +37,7 @@ class Header extends Component {
             mode="light"
             rightContent={[
               <Icon key="0" type="search" style={{ marginRight: '16px', color: '#000' }} />,
-              <Icon key="1" type="ellipsis" style={{ color: '#000' }} />,
+              <Icon key="1" type="plus" style={{ color: '#000' }} onClick={this.goAddFriend} />,
             ]}
             style={{ backgroundColor: '#ededed' }}
           >{route_name}</NavBar>

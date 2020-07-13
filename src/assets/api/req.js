@@ -13,7 +13,7 @@ axios.interceptors.request.use(function (config) {
     }
     let token = sessionStorage.getItem('token');
     if (token && typeof token !== 'undefined') {
-        config.headers.token = token;
+        config.headers.authorization = 'Bearer ' + token;
     }
     config.headers.timeStamp = new Date().getTime()
     return config;
@@ -27,9 +27,10 @@ axios.interceptors.response.use(function (res) {
     if (reqCount <= 0) {
         Toast.hide()
     }
+    console.log(res);
 
-    if (res.headers.token && typeof res.headers.token !== 'undefined') {
-        sessionStorage.setItem('token', res.headers.token);
+    if (res.data.data && typeof res.data.data.token !== 'undefined') {
+        sessionStorage.setItem('token', res.data.data.token);
     }
     // 生成文件
     // if (res.headers['content-type'].indexOf('application/octet-stream') == -1 && !res.data.error) {
@@ -68,10 +69,10 @@ function req(method, url, params, loading = false) {
     if (params.pageNo && params.pageNo > 0) {
         params.pageNo -= 1;
     }
-
+    let baseURL = process.env.NODE_ENV === 'development' ? 'https://localhost:3000' : 'https://xiongxiong.site:3000'
     let httpDefault = {
         method: method,
-        baseURL: 'http://localhost:9999',
+        baseURL,
         url: url,
         params: method === 'get' || method === 'delete' ? params : null,
         // data: method === 'POST' || method === 'PUT' ? qs.stringify(params) : null,

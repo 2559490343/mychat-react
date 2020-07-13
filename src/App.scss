@@ -5,3 +5,9 @@
   overflow: scroll;
   // touch-action: none;
 }
+span.am-badge{
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateX(40%) translateY(-30%);
+}

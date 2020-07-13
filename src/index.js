@@ -14,9 +14,7 @@ if (React.utils.getStorage('user')) {
   React.socket.emit('open', React.utils.getStorage('user')._id)
 }
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <App />,
   document.getElementById('root')
 );
 

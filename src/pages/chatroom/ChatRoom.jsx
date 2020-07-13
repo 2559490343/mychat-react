@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Badge } from 'antd-mobile';
 import { withRouter } from "react-router-dom"
 import './ChatRoom.scss'
 class ChatRoom extends Component {
@@ -38,6 +39,7 @@ class ChatRoom extends Component {
             return (<div className='chat-item' key={item._id} onClick={this.toSingleChat.bind(this, { _id: item._id, nickname: item.nickname })}>
               <div className='chat-avatar'>
                 <img src={item.avatarUrl} alt="" />
+                <Badge text={0} overflowCount={99} />
               </div>
               <div className='chat-inner'>
                 <div className='chat-info'>

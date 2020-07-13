@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Route, Switch, Redirect } from "react-router-dom"
 import ChatRoom from '../chatroom/ChatRoom'
+import AddFriends from '../addFriends/addFriends'
 import MailList from '../maillist/MailList'
 import Mine from '../mine/Mine'
 import Header from '../../components/header/Header'
@@ -27,6 +28,7 @@ class Home extends Component {
         <Header></Header>
         <Switch>
           <Route path="/home/chat" render={() => (<ChatRoom />)} />
+          <Route path="/home/addFriends" render={() => (<AddFriends />)} />
           <Route path="/home/maillist" render={() => (<MailList />)} />
           <Route path="/home/mine" render={() => (<Mine />)} />
           <Redirect from="/" to="/home/chat" />
