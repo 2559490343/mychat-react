@@ -13,9 +13,11 @@ class ChatRoom extends Component {
   }
   getChatList = () => {
     React.api.getChatList().then(res => {
-      this.setState({
-        chatList: res.data.chatList
-      })
+      if (res.code === 1) {
+        this.setState({
+          chatList: res.data.chatList
+        })
+      }
     })
   }
   getChatMsg = msgObj => {

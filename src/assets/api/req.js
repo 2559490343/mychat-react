@@ -55,6 +55,9 @@ axios.interceptors.response.use(function (res) {
 function goLogin() {
     sessionStorage.clear();
     Toast.fail("登录失效！", 1);
+    setTimeout(() => {
+        window.location.href = '/login';
+    }, 500);
 }
 // 封装axios--------------------------------------------------------------------------------------
 /**
@@ -105,7 +108,7 @@ function req(method, url, params, loading = false) {
                 if (res.code === 0) {
                     Toast.fail(res.msg, 1);
                     resolve(res);
-                } else if (res.code === 2) {
+                } else if (res.code === -1) {
                     // 登录失效重新登录
                     goLogin();
                     resolve(res);
