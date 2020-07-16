@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { SearchBar, Button } from 'antd-mobile';
+import { SearchBar, Button, Toast } from 'antd-mobile';
 import './addFriends.scss'
 class AddFriends extends Component {
     state = {
@@ -37,6 +37,15 @@ class AddFriends extends Component {
             }
         })
     }
+    handleSendApply = (_id) => {
+        React.api.sendAddApply({ _id }).then(res => {
+            if (res.code === 1) {
+                Toast.success('已发送申请!', 1)
+            }
+        })
+    }
+
+
     render() {
         return (
             <div className="addFriends">
@@ -64,7 +73,7 @@ class AddFriends extends Component {
                                     </div>
                                 </div>
                                 <div className="result-btn">
-                                    <Button icon="plus" size="small" style={{ width: '60px', fontSize: '12px', padding: '0', background: "#1aad19", color: "#fff", fontWeight: '600' }}>添加</Button>
+                                    <Button icon="plus" onClick={this.handleSendApply.bind(this, item._id)} size="small" style={{ width: '60px', fontSize: '12px', padding: '0', background: "#1aad19", color: "#fff", fontWeight: '600' }}>添加</Button>
                                 </div>
                             </div>
                         ))

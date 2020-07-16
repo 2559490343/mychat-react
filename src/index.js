@@ -6,7 +6,7 @@ import "lib-flexible"
 import api from './assets/api/api'
 import utils from './assets/js/utils'
 import Socket from './assets/js/socket'
-
+import 'element-theme-default';
 React.api = api;
 React.utils = utils;
 React.socket = Socket.getInstance();

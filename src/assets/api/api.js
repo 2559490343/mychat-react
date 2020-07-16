@@ -25,10 +25,29 @@ const api = {
     getFrientsList: params => {
         return req('get', '/users/getFrientsList', params, false)
     },
-    // 搜素添加好友
+    // 搜索添加好友
     searchFriends: params => {
         return req('get', '/users/searchFriends', params, true)
     },
-
+    // 修改头像
+    changeUserAvatar: params => {
+        return req('post', '/users/changeUserAvatar', params, true)
+    },
+    // 修改昵称
+    changeUserNickname: params => {
+        return req('get', '/users/changeUserNickname', params, false)
+    },
+    // 发送好友申请
+    sendAddApply: params => {
+        return req('get', '/users/sendAddFriends', params, false)
+    },
+    // 获取好友申请列表
+    getApplyList: params => {
+        return req('get', '/users/getApplyList', params, false)
+    },
+    // 同意好友申请
+    agreeApply: params => {
+        return req('get', '/users/agreeApply', params, false)
+    },
 }
 export default api

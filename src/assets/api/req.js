@@ -6,9 +6,11 @@ import { Toast } from 'antd-mobile';
 
 // var loadingInstance;// 显示loading
 var reqCount = 0;//请求数
+let loadFlag = false;
 axios.interceptors.request.use(function (config) {
     reqCount++;
     if (config.loading) {
+        loadFlag = true
         Toast.loading('Loading...', 0)
     }
     let token = sessionStorage.getItem('token');
@@ -24,11 +26,9 @@ axios.interceptors.request.use(function (config) {
 // 添加响应拦截器(对接口响应返回数据做点什么)----------------------------------------------------------------
 axios.interceptors.response.use(function (res) {
     reqCount--;
-    if (reqCount <= 0) {
+    if (reqCount <= 0 && loadFlag) {
         Toast.hide()
     }
-    console.log(res);
-
     if (res.data.data && typeof res.data.data.token !== 'undefined') {
         sessionStorage.setItem('token', res.data.data.token);
     }
@@ -54,10 +54,10 @@ axios.interceptors.response.use(function (res) {
 //需要重新登录--------------------------------------------------------------------------------------
 function goLogin() {
     sessionStorage.clear();
-    Toast.fail("登录失效！", 1);
+    Toast.fail("登录失效！请重新登录！", 1);
     setTimeout(() => {
         window.location.href = '/login';
-    }, 500);
+    }, 800);
 }
 // 封装axios--------------------------------------------------------------------------------------
 /**

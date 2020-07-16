@@ -24,7 +24,6 @@ class ChatRoom extends Component {
     console.log("chatroom:", msgObj);
   }
   componentDidMount() {
-    // console.log('聊天室');
     this.getChatList();
     // 监听 接收到的信息
     React.socket.on("getChatMsg", this.getChatMsg)

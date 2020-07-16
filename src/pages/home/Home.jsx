@@ -4,6 +4,7 @@ import ChatRoom from '../chatroom/ChatRoom'
 import AddFriends from '../addFriends/addFriends'
 import MailList from '../maillist/MailList'
 import Mine from '../mine/Mine'
+import NewFriends from '../newFriends/newFriends'
 import Header from '../../components/header/Header'
 import Tabbar from '../../components/tabbar/Tabbar'
 import './Home.scss'
@@ -31,6 +32,7 @@ class Home extends Component {
           <Route path="/home/addFriends" render={() => (<AddFriends />)} />
           <Route path="/home/maillist" render={() => (<MailList />)} />
           <Route path="/home/mine" render={() => (<Mine />)} />
+          <Route path="/home/newFriends" render={() => (<NewFriends />)} />
           <Redirect from="/" to="/home/chat" />
           {/* {
             childrenRouters.map((item, index) => {

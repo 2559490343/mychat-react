@@ -9,7 +9,8 @@ class MailList extends Component {
   state = {
     letterList: ['↑', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#'],
     mailList: [],
-    activeLetter: ''
+    activeLetter: '',
+    applyCount: 0
   }
   handleLetterClick = (e) => {
     e.persist()
@@ -25,6 +26,8 @@ class MailList extends Component {
         if (item.dataset.index === letter) {
           item.scrollIntoView()
           return true
+        } else {
+          return false
         }
       })
     }
@@ -32,27 +35,29 @@ class MailList extends Component {
   toSingleChat = (info) => {
     this.props.history.push('/singlechat', { nickname: info.nickname, _id: info._id })
   }
+  toNewFriends = () => {
+    this.props.history.push('/home/newFriends')
+  }
   getFrientsList = () => {
     React.api.getFrientsList({ _id: React.utils.getStorage('user')._id }).then(res => {
       if (res.code === 1) {
         this.setState({
-          mailList: res.data.mailList
+          mailList: res.data.mailList,
+          applyCount: res.data.applyCount
         })
       }
 
     })
   }
   render() {
-
-
     return (
       <div className='MailList' ref={(e) => { this.mailListDom = e }}>
         <div className='maillist-body' >
           <div className="body-options">
-            <div className="list-item">
+            <div className="list-item" onClick={this.toNewFriends}>
               <div className="avatar">
                 <img src="http://img2.imgtn.bdimg.com/it/u=3693349525,1948615145&fm=26&gp=0.jpg" alt="" />
-                <Badge text={10} overflowCount={99} />
+                <Badge text={this.state.applyCount} overflowCount={99} />
               </div>
               <div className="username">新的朋友</div>
             </div>
@@ -85,6 +90,8 @@ class MailList extends Component {
                       </div>
                     </div>
                   )
+                } else {
+                  return (<div key={item.label}></div>)
                 }
               })
             }
