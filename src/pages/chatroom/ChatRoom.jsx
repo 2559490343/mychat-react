@@ -37,7 +37,7 @@ class ChatRoom extends Component {
       <div className="chatRoom">
         {
           this.state.chatList.map(item => {
-            return (<div className='chat-item' key={item._id} onClick={this.toSingleChat.bind(this, { _id: item._id, nickname: item.nickname })}>
+            return (<div className='chat-item' key={item._id} onClick={this.toSingleChat.bind(this, { _id: item.otherUserId, nickname: item.nickname })}>
               <div className='chat-avatar'>
                 <img src={item.avatarUrl} alt="" />
                 <Badge text={0} overflowCount={99} />
@@ -45,10 +45,16 @@ class ChatRoom extends Component {
               <div className='chat-inner'>
                 <div className='chat-info'>
                   <h3>{item.nickname}</h3>
-                  <span>12:29</span>
+                  <span>
+                    {new Date(item.chatDate).getTime() - Date.now() > 1000 * 60 * 60 * 24
+                      ?
+                      React.utils.dateFormat('yyyy-MM-dd hh:mm', item.chatDate)
+                      :
+                      React.utils.dateFormat('hh:mm', item.chatDate)}
+                  </span>
                 </div>
                 <div className='chat-context'>
-                  <p>哈哈哈哈哈哈哈哈哈哈或或或或或或或或或或</p>
+                  <p>{item.lastChatContent}</p>
                 </div>
               </div>
             </div>)

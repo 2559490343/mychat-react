@@ -25,7 +25,9 @@ class SingleChat extends Component {
       _id: Math.random() * 1000000
     };
     React.api.sendChatMsg(obj).then(res => {
-
+      if (res.code !== 1) {
+        console.log('裂开');
+      }
     })
     let arr = this.state.chat_list;
     arr.push(obj)
@@ -54,8 +56,8 @@ class SingleChat extends Component {
     let obj = {
       pageNo: 1,
       pageSize: 30,
-      sendUserId: React.utils.getStorage('user')._id,
-      receiveUserId: this.props.history.location.state._id
+      receiveUserId: this.props.history.location.state._id,
+      sendUserId: React.utils.getStorage('user')._id
     }
     React.api.getHisChatMsgList(obj).then(res => {
       if (res.code === 1) {
